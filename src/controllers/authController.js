@@ -4,7 +4,7 @@ const User = require('../models/user');
 
 exports.registerOwner = async (req, res) => {
     try {
-        const { name, email, password } = req.body;
+        const { firstName, lastName, email, password } = req.body;
 
         // Check if user exists
         let user = await User.findOne({ email });
@@ -18,8 +18,9 @@ exports.registerOwner = async (req, res) => {
 
         // Create new owner
         user = new User({
-            name,
-            email,
+            firstName,
+            lastName,
+            email, 
             password: hashedPassword,
             role: 'Owner' // Ensure role is set to owner
         });

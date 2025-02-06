@@ -7,6 +7,6 @@ const { authenticate, authorize } = require("../middlewares/authMiddleware");
 
 router.get("/", authorize(['Customer']), menuController.getMenu);
 router.post("/register", reservation.registerCustomer)
-router.post("login", reservation.loginCustomer)
+router.post("/login", reservation.loginCustomer)
 
 module.exports = router;

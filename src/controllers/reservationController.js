@@ -1,7 +1,7 @@
 const Reservation = require("../models/reservation");
 const User = require('../models/user')
 const bcrypt = require('bcryptjs')
-const jwy = require('jsonwebtoken')
+const jwt = require('jsonwebtoken')
 
 // Make a Table Reservation (CUSTOMER ONLY)
 exports.modifyReservation = async (req, res) => {
@@ -68,14 +68,15 @@ exports.deleteReservation = async (req, res) => {
 // register customer
 exports.registerCustomer = async(req, res)=>{ 
   try {
-    const { name, email, phone, password } = req.body;
+    const { firstName, lastName, email, phone, password } = req.body;
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ success: false, message: "Email already exists" });
     }
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newCustomer = new User({
-      name,
+    const newCustomer = new User({ 
+      firstName,
+      lastName,
       email,
       phone,
       password: hashedPassword,

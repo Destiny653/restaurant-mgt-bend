@@ -16,12 +16,13 @@ exports.getAllReservations = async (req, res) => {
 // Add Staff (OWNER ONLY)
 exports.addStaff = async (req, res) => {
   try {
-    const { name, email, password, salary } = req.body;
+    const { firstName, lastName, email, password, salary } = req.body;
 
     const hashPassword = bcrypt.hash(password, 10)
 
-    const newStaff = new User({
-      name,
+    const newStaff = new User({ 
+      firstName,
+      lastName,
       email,
       password: hashPassword,
       role: "Staff",
