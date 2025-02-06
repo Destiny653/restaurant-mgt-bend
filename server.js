@@ -14,6 +14,7 @@ const reservationRoutes = require("./src/routes/reservationRoutes");
 const staffRoutes = require("./src/routes/staffRoutes");
 const ownerRoutes = require("./src/routes/ownerRoutes");
 const authRoute = require("./src/routes/authRoutes")
+const customerRoute = require("./src/routes/customerRoutes")
 
 // Use routes
 app.use("/api/menu", menuRoutes);
@@ -22,11 +23,12 @@ app.use("/api/reservations", reservationRoutes);
 app.use("/api/staff", staffRoutes);
 app.use("/api/owner", ownerRoutes);
 app.use("/api/auth", authRoute);
+app.use("/api/customer", customerRoute);
 
 mongoose.connect(process.env.MONGODB_URI)
-.then(() =>{
-  const PORT = process.env.PORT || 5000;
-  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-   console.log("Database connected")
+  .then(() => {
+    const PORT = process.env.PORT || 5000;
+    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+    console.log("Database connected")
   })
-.catch((err) => console.log(err));
+  .catch((err) => console.log(err));
