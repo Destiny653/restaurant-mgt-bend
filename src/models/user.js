@@ -21,6 +21,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  message: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'message'
+  },
   role: {
     type: String,
     enum: ["Owner", "Staff", "Customer"],

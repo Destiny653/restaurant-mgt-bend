@@ -23,6 +23,12 @@ const reservationSchema = new mongoose.Schema({
     required: true,
     min: 1,
   },
+  phone: {
+    type: String,
+  },
+  specialRequest:{
+    type: String
+  },
   status: {
     type: String,
     enum: ["Pending", "Confirmed", "Cancelled"],

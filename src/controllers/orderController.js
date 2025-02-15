@@ -1,7 +1,10 @@
 const Order = require("../models/order");
+const User = require("../models/user");
 
 // Add Order
 exports.addOrder = async (req, res) => {
+  const user = req.user
+  console.log("user ORder: ",user)
   try {
     const newOrder = new Order(req.body);
     await newOrder.save();
@@ -38,13 +41,23 @@ exports.deleteOrder = async (req, res) => {
 // Place an Order (CUSTOMER ONLY)
 exports.placeOrder = async (req, res) => {
     try {
-      const { items, totalAmount } = req.body;
+      let { items,  userEmail, email, postalCode  } = req.body;
+      console.log("Items: ",items)
+      const user = await User.findOne({email:userEmail})
+      items = items.map((item)=>({
+        ...item, item:item.id, quantity:item.quantity, price:item.price, productTotal: item.quantity * item.price
+      }))
+      console.log("Items2: ",items)
+      const total = items.reduce((total, item) => total + item.productTotal, 0).toFixed(2) 
   
       const newOrder = new Order({
-        customer: req.user._id,
+        customer: user._id,
         items,
-        totalAmount,
-        status: "Pending",
+        email,
+        total,
+        postalCode, 
+        orderType: 'dine-in',
+        status: "pending",
       });
   
       await newOrder.save();

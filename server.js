@@ -22,8 +22,8 @@ const customerRoute = require("./src/routes/customerRoutes")
 
 // Use routes
 app.use("/api/menu", menuRoutes);
-app.use("/api/orders", orderRoutes);
-app.use("/api/reservations", reservationRoutes);
+app.use("/api/order", orderRoutes);
+app.use("/api/reservation", reservationRoutes);
 app.use("/api/staff", staffRoutes);
 app.use("/api/owner", ownerRoutes);
 app.use("/api/auth", authRoute);

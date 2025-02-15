@@ -28,21 +28,29 @@ exports.viewReservations = async (req, res) => {
 
 exports.createReservation = async (req, res) => {
   try {
-    const {tableNumber, date, time, guests} = req.body;
+    const {tableNumber, date, time, guests, email, specialRequests, phone} = req.body;
+
+    const user = await User.findOne({email})
+    console.log("user cus: ", user)
+    if(!user){
+      res.status(404).json({success: false, message: 'User not found please register first.'})
+    }
 
     const newReservation = new Reservation({
-      customer: req.user._id,
+      customer: user._id,
       tableNumber,
+      phone,
+      specialRequest: specialRequests,
       date,
       time,
       guests,
-      status: "Pending",
+      status: "pending",
     });
 
     await newReservation.save();
     res.status(201).json({ success: true, data: newReservation });
   } catch (error) {
-    res.status(400).json({ success: false, message: error.message });
+    res.status(400).json({ success: false, message:"Error: "+ error.message });
   }
 };
 

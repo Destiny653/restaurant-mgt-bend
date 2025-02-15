@@ -6,11 +6,22 @@ const orderSchema = new mongoose.Schema({
         ref: 'User',
         required: true
     },
+    phone: {
+        type: String,
+        requird: true
+    },
+    email: {
+        type: String,
+        required: true,
+    },
+    postalCode: {
+        type: String,
+        required: true
+    },
     items: [{
-        menuItem: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'MenuItem',
-            required: true
+        item: {
+            type: String,
+            ref: 'MenuItem', 
         },
         quantity: {
             type: Number,
@@ -21,9 +32,15 @@ const orderSchema = new mongoose.Schema({
             type: Number,
             required: true
         },
+        itemsTotal: {
+            type: Number,
+            default: function () {
+                return this.quantity * this.price;
+            }
+        },
         specialInstructions: String
     }],
-    totalAmount: {
+    total: {
         type: Number,
         required: true
     },
@@ -34,9 +51,8 @@ const orderSchema = new mongoose.Schema({
     },
     orderType: {
         type: String,
-        enum: ['dine-in', 'takeaway', 'delivery'],
-        required: true
-    } 
+        enum: ['dine-in', 'takeaway', 'delivery'],  
+    }
 }, {
     timestamps: true
 });

@@ -15,16 +15,18 @@ exports.authenticate = async (req, res, next) => {
     req.user = await User.findById(decoded.id).select("-password") - //Exclude password  
       next();
   } catch (error) {
-    res.status(401).json({ success: false, message: "Invalid token unauthorized: " + error.message });
+    res.status(401).json({ success: false, message: "Error: " + error.message+ " " + 'session expired please login.' });
   }
 };
 
 exports.authorize = (roles) => (req, res, next) => {
-  console.log("Roles: ", roles) 
+  console.log("Roles: ", roles)  
+  const user =  req.user
+  console.log("user: ",user)
  try{
   if (!roles.includes(req.body.role)) {
     return res.status(403).json({ success: false, message: "Access denied" });
-  }
+  }  
   next();
  }catch(err){
   console.log("Error: ", err)
